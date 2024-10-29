@@ -1,5 +1,13 @@
 #include "tools.h"
 
+/**
+ * @brief Reads the input file and populates the utility matrix.
+ * 
+ * @param filename The name of the input file.
+ * @param utilityMatrix The matrix to store user-item ratings.
+ * @param minRating The minimum possible rating.
+ * @param maxRating The maximum possible rating.
+ */
 void readInputFile(const std::string &filename, std::vector<std::vector<double>> &utilityMatrix, double &minRating, double &maxRating) {
     std::ifstream file(filename);
     if (!file) {
@@ -30,6 +38,13 @@ void readInputFile(const std::string &filename, std::vector<std::vector<double>>
     file.close();
 }
 
+/**
+ * @brief Computes the Pearson correlation coefficient between two vectors.
+ * 
+ * @param a The first vector.
+ * @param b The second vector.
+ * @return The Pearson correlation coefficient.
+ */
 double pearsonCorrelation(const std::vector<double> &a, const std::vector<double> &b) {
     std::vector<double> commonA, commonB;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -51,6 +66,13 @@ double pearsonCorrelation(const std::vector<double> &a, const std::vector<double
     return numerator / std::sqrt(denomA * denomB);
 }
 
+/**
+ * @brief Computes the cosine similarity between two vectors.
+ * 
+ * @param a The first vector.
+ * @param b The second vector.
+ * @return The cosine similarity.
+ */
 double cosineSimilarity(const std::vector<double> &a, const std::vector<double> &b) {
     double dotProduct = 0.0, normA = 0.0, normB = 0.0;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -63,6 +85,13 @@ double cosineSimilarity(const std::vector<double> &a, const std::vector<double> 
     return dotProduct / (std::sqrt(normA) * std::sqrt(normB));
 }
 
+/**
+ * @brief Computes the Euclidean distance between two vectors.
+ * 
+ * @param a The first vector.
+ * @param b The second vector.
+ * @return The Euclidean distance.
+ */
 double euclideanDistance(const std::vector<double> &a, const std::vector<double> &b) {
     double sum = 0.0;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -73,6 +102,16 @@ double euclideanDistance(const std::vector<double> &a, const std::vector<double>
     return std::sqrt(sum);
 }
 
+/**
+ * @brief Finds the k-nearest neighbors for a given user and item.
+ * 
+ * @param utilityMatrix The user-item ratings matrix.
+ * @param userIndex The index of the user.
+ * @param itemIndex The index of the item.
+ * @param k The number of neighbors to find.
+ * @param metric The similarity metric to use (pearson/cosine/euclidean).
+ * @return A vector of pairs, each containing the index of a neighbor and its similarity score.
+ */
 std::vector<std::pair<int, double>> findNeighbors(const std::vector<std::vector<double>> &utilityMatrix, int userIndex, int itemIndex, int k, const std::string &metric) {
     std::vector<std::pair<int, double>> similarities;
     for (size_t i = 0; i < utilityMatrix.size(); ++i) {
@@ -100,6 +139,15 @@ std::vector<std::pair<int, double>> findNeighbors(const std::vector<std::vector<
     return similarities;
 }
 
+/**
+ * @brief Predicts the rating for a given user and item using a simple weighted average.
+ * 
+ * @param utilityMatrix The user-item ratings matrix.
+ * @param userIndex The index of the user.
+ * @param itemIndex The index of the item.
+ * @param neighbors The list of neighbors and their similarity scores.
+ * @return The predicted rating.
+ */
 double predictSimple(const std::vector<std::vector<double>> &utilityMatrix, int userIndex, int itemIndex, const std::vector<std::pair<int, double>> &neighbors) {
     double numerator = 0.0, denominator = 0.0;
     for (const auto &neighbor : neighbors) {
@@ -113,6 +161,15 @@ double predictSimple(const std::vector<std::vector<double>> &utilityMatrix, int 
     return numerator / denominator;
 }
 
+/**
+ * @brief Predicts the rating for a given user and item using the difference with the mean approach.
+ * 
+ * @param utilityMatrix The user-item ratings matrix.
+ * @param userIndex The index of the user.
+ * @param itemIndex The index of the item.
+ * @param neighbors The list of neighbors and their similarity scores.
+ * @return The predicted rating.
+ */
 double predictDiffWithMean(const std::vector<std::vector<double>> &utilityMatrix, int userIndex, int itemIndex, const std::vector<std::pair<int, double>> &neighbors) {
     double meanUser = std::accumulate(utilityMatrix[userIndex].begin(), utilityMatrix[userIndex].end(), 0.0,
                                       [](double sum, double rating) { return rating != -1 ? sum + rating : sum; }) /
@@ -134,6 +191,11 @@ double predictDiffWithMean(const std::vector<std::vector<double>> &utilityMatrix
     return meanUser + (numerator / denominator);
 }
 
+/**
+ * @brief Prints the given matrix to the standard output.
+ * 
+ * @param matrix The matrix to print.
+ */
 void printMatrix(const std::vector<std::vector<double>> &matrix) {
     for (const auto &row : matrix) {
         for (const auto &elem : row) {
