@@ -122,7 +122,7 @@ El archivo `tools.cc` contiene la implementación de diversas funciones auxiliar
 ### Archivo de Entrada (input.txt)
 
 El archivo de entrada debe contener la matriz de utilidad de usuario-ítem, así como los valores mínimo y máximo de los ratings posibles. A continuación se muestra un ejemplo de cómo debe estar estructurado este archivo:
-
+```
 1.000
 5.000
 4.000 3.000 - 5.000 1.000
@@ -130,7 +130,7 @@ El archivo de entrada debe contener la matriz de utilidad de usuario-ítem, así
 3.000 2.000 4.000 - 5.000
 - 4.000 3.000 2.000 1.000
 2.000 1.000 5.000 3.000 -
-
+```
 
 En este archivo:
 - La primera línea (`1`) representa el rating mínimo.
