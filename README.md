@@ -114,3 +114,64 @@ El archivo `tools.cc` contiene la implementación de diversas funciones auxiliar
   - Parámetros:
     - `argc`: Número de argumentos de entrada.
     - `argv`: Vector de argumentos de entrada.
+
+# Ejemplo de Uso del Programa de Predicción de Ratings
+
+## Archivos Necesarios
+
+### Archivo de Entrada (input.txt)
+
+El archivo de entrada debe contener la matriz de utilidad de usuario-ítem, así como los valores mínimo y máximo de los ratings posibles. A continuación se muestra un ejemplo de cómo debe estar estructurado este archivo:
+
+1.000
+5.000
+4.000 3.000 - 5.000 1.000
+5.000 - 2.000 4.000 3.000
+3.000 2.000 4.000 - 5.000
+- 4.000 3.000 2.000 1.000
+2.000 1.000 5.000 3.000 -
+
+
+En este archivo:
+- La primera línea (`1`) representa el rating mínimo.
+- La segunda línea (`5`) representa el rating máximo.
+- Las siguientes líneas representan la matriz de utilidad, donde los valores faltantes se denotan con un guión (`-`).
+
+### Matriz de Utilidad
+
+La matriz de utilidad, derivada del archivo de entrada anterior, puede representarse de la siguiente manera:
+
+| Usuario / Ítem | 1 | 2 | 3 | 4 | 5 |
+|-----------------|---|---|---|---|---|
+| **1**           | 4 | 3 | - | 5 | 1 |
+| **2**           | 5 | - | 2 | 4 | 3 |
+| **3**           | 3 | 2 | 4 | - | 5 |
+| **4**           | - | 4 | 3 | 2 | 1 |
+| **5**           | 2 | 1 | 5 | 3 | - |
+
+### Archivo main.cc
+
+Este archivo contiene la función principal del programa, que procesa el archivo de entrada, calcula las predicciones y muestra la matriz de utilidad con los ratings predichos. 
+
+### Archivo tools.cc
+
+Este archivo contiene las funciones auxiliares para leer el archivo de entrada, calcular similitudes, encontrar vecinos, predecir ratings e imprimir la matriz.
+
+## Compilación del Programa
+
+Para compilar el programa, ejecutamos `make` y después `./bin/recommender <filename> <metric> <k> <predictionType>`
+
+### Parámetros
+
+- **`<filename>`**: El nombre del archivo de entrada que contiene la matriz de utilidad.
+- **`<metric>`**: La métrica de similitud que deseas utilizar. Puede ser una de las siguientes:
+  - `pearson`: Correlación de Pearson.
+  - `cosine`: Similitud del coseno.
+  - `euclidean`: Distancia euclidiana.
+  
+- **`<k>`**: El número de vecinos más cercanos que se utilizarán para hacer las predicciones.
+  
+- **`<predictionType>`**: El tipo de predicción que se desea utilizar. Puede ser una de las siguientes opciones:
+  - `simple`: Predicción utilizando un promedio ponderado simple.
+  - `mean`: Predicción utilizando la diferencia con el promedio.
+
