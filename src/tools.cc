@@ -209,6 +209,25 @@ void printMatrix(const std::vector<std::vector<double>> &matrix) {
     }
 }
 
+void printMatrixinFile(const std::vector<std::vector<double>> &matrix, std::string filename) {
+    std::ofstream file(filename);
+    if (!file) {
+        std::cerr << "Could not open the file!" << std::endl;
+        exit(1);
+    }
+    for (const auto &row : matrix) {
+        for (const auto &elem : row) {
+            if (elem == -1) {
+                file << "- ";
+            } else {
+                file << elem << " ";
+            }
+        }
+        file << std::endl;
+    }
+    file.close();
+}
+
 void Usage(int argc, char *argv[]) {
     if (argc != 5) {
         std::cerr << "Usage: " << argv[0] << " <filename> <metric> <k> <predictionType>" << std::endl;

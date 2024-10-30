@@ -85,4 +85,6 @@ double predictDiffWithMean(const std::vector<std::vector<double>> &utilityMatrix
  * @param matrix The matrix to print.
  */
 void printMatrix(const std::vector<std::vector<double>> &matrix);
+
+void printMatrixinFile(const std::vector<std::vector<double>> &matrix, std::string filename);
 void Usage(int argc, char *argv[]);

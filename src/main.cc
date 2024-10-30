@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Predicted Utility Matrix:" << std::endl;
     printMatrix(predictedMatrix);
-
+    printMatrixinFile(predictedMatrix, "predictedMatrix.txt");
     return 0;
 }
 
